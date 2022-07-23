@@ -6,16 +6,10 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v3/grpc/proto"
 )
 
-type Hello struct {
-	ID       int    `json:"id"`
-	Greeting string `json:"greeting"`
-	JSON	 string `json:"json"`
-}
-
-func tableHello(ctx context.Context) *plugin.Table {
+func tableHelloList(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
-		Name:        "hello",
-		Description: "Simplest Steampipe plugin",
+		Name:        "hello_list",
+		Description: "hello using List/ListConfig",
 		List: &plugin.ListConfig{
 			Hydrate: listGreeting,
 		},
