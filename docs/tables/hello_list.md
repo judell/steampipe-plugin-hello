@@ -34,6 +34,8 @@ select *, pg_typeof(json) from hello_list
 
 ### 2
 
+`listGreeting` runs to completion, returning 3 rows, and then the results are filtered down to 1 row.
+
 ```
 select *, json->>'hello' as json_value from hello_list where id = 2
 +----+----------+-------------------+-----------------------------+------------+
@@ -45,6 +47,7 @@ select *, json->>'hello' as json_value from hello_list where id = 2
 
 ### 3
 
+`listGreeting` runs to completion, returning 3 rows, and then the results are filtered down to 0 rows.
 
 ```
 select * from hello_list where id = 17
@@ -55,6 +58,8 @@ select * from hello_list where id = 17
 ```
 
 ### 4
+
+`listGreeting` runs to completion, returning 3 rows, and then the results are filtered down to 2 rows.
 
 ```
 select * from hello_list where id in (1,2,17)
@@ -67,6 +72,8 @@ select * from hello_list where id in (1,2,17)
 ```
 
 ### 5
+
+`listGreeting` runs to completion, returning 3 rows, and then the results are filtered down to 2 rows.
 
 ```
 with ids as ( select 1 as id union select 2 union select 17 )
