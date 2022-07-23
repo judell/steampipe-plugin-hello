@@ -22,7 +22,7 @@ Install go, then:
 ```
 $ git clone https://github.com/judell/steampipe-plugin-hello
 
-$ cp ./config/hello.scp ~/.steampipe/config
+$ cp ./config/hello.spc ~/.steampipe/config
 
 $ make
 

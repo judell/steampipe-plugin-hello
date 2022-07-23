@@ -2,8 +2,9 @@ package hello
 
 import (
 	"context"
-	"github.com/turbot/steampipe-plugin-sdk/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v3/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v3/plugin/transform"
+
 )
 
 func Plugin(ctx context.Context) *plugin.Plugin {
