@@ -5,7 +5,6 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v3/grpc/proto"
 )
 
-
 type Hello struct {
 	ID       int    `json:"id"`
 	Greeting string `json:"greeting"`

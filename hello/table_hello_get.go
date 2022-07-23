@@ -18,9 +18,6 @@ func tableHelloGet(ctx context.Context) *plugin.Table {
 }
 
 func getGreeting(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	if h.Item != nil {
-		plugin.Logger(ctx).Info("getGreeting", "h.Item", h.Item)
-	}
     quals := d.KeyColumnQuals
     id := int(quals["id"].GetInt64Value())	
 	plugin.Logger(ctx).Info("getGreeting", "number", id)
