@@ -17,6 +17,8 @@ func tableHelloList(ctx context.Context) *plugin.Table {
 
 ## Examples
 
+These examples call `listGreeting`.
+
 ```
 > select *, pg_typeof(json) from hello_list
 +----+----------+-------------------+-----------------------------+-----------+
@@ -45,3 +47,12 @@ func tableHelloList(ctx context.Context) *plugin.Table {
 +----+----------+------+------+
 ```
 
+```
+> select * from hello_list where id in (1,2,17)
++----+----------+-------------------+-----------------------------+
+| id | greeting | json              | _ctx                        |
++----+----------+-------------------+-----------------------------+
+| 1  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
+| 2  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
++----+----------+-------------------+-----------------------------+
+```
