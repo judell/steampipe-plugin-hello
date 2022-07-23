@@ -17,10 +17,3 @@ func tableHelloGet(ctx context.Context) *plugin.Table {
 	}
 }
 
-func getGreeting(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-    quals := d.KeyColumnQuals
-    id := int(quals["id"].GetInt64Value())	
-	plugin.Logger(ctx).Info("getGreeting", "number", id)
-	greeting := Hello{id, "Hello", "{\"hello\": \"world\"}"}
-	return &greeting, nil
-}

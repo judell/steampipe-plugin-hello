@@ -16,11 +16,3 @@ func tableHelloList(ctx context.Context) *plugin.Table {
 	}
 }
 
-func listGreeting(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	for i := 1; i <= 3; i++ {
-		plugin.Logger(ctx).Info("listGreeting", "number", i)		
-		greeting := Hello{i, "Hello", "{\"hello\": \"world\"}"}
-		d.StreamListItem(ctx, &greeting)
-	}
-	return nil, nil
-}
