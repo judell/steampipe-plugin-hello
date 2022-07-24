@@ -23,6 +23,9 @@ These examples use `listGreeting`.
 
 ```
 select *, pg_typeof(json) from hello_list
+```
+
+```
 +----+----------+-------------------+-----------------------------+-----------+
 | id | greeting | json              | _ctx                        | pg_typeof |
 +----+----------+-------------------+-----------------------------+-----------+
@@ -38,6 +41,9 @@ select *, pg_typeof(json) from hello_list
 
 ```
 select *, json->>'hello' as json_value from hello_list where id = 2
+```
+
+```
 +----+----------+-------------------+-----------------------------+------------+
 | id | greeting | json              | _ctx                        | json_value |
 +----+----------+-------------------+-----------------------------+------------+
@@ -51,6 +57,9 @@ select *, json->>'hello' as json_value from hello_list where id = 2
 
 ```
 select * from hello_list where id = 17
+```
+
+```
 +----+----------+------+------+
 | id | greeting | json | _ctx |
 +----+----------+------+------+
@@ -63,6 +72,9 @@ select * from hello_list where id = 17
 
 ```
 select * from hello_list where id in (1,2,17)
+```
+
+```
 +----+----------+-------------------+-----------------------------+
 | id | greeting | json              | _ctx                        |
 +----+----------+-------------------+-----------------------------+
@@ -85,6 +97,9 @@ join
   ids
 using
   (id)
+```
+
+```
 +----+----------+-------------------+-----------------------------+
 | id | greeting | json              | _ctx                        |
 +----+----------+-------------------+-----------------------------+

@@ -24,7 +24,9 @@ These examples use `getGreeting`.
 
 ```
 select * from hello_get
+```
 
+```
 Error: rpc error: code = Internal desc = 'Get' call for table 'hello_get' is missing 1 required qual: column:'id' operator: = (SQLSTATE HV000)
 ```
 
@@ -32,6 +34,9 @@ Error: rpc error: code = Internal desc = 'Get' call for table 'hello_get' is mis
 
 ```
 select * from hello_get where id = '17'
+```
+
+```
 +----+----------+-------------------+-----------------------------+
 | id | greeting | json              | _ctx                        |
 +----+----------+-------------------+-----------------------------+
@@ -43,6 +48,9 @@ select * from hello_get where id = '17'
 
 ```
 select * from hello_get where id in (1,2,17)
+```
+
+```
 +----+----------+-------------------+-----------------------------+
 | id | greeting | json              | _ctx                        |
 +----+----------+-------------------+-----------------------------+
