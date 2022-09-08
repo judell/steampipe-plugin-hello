@@ -2,7 +2,7 @@ package hello
 
 import (
 	"context"
-	"github.com/turbot/steampipe-plugin-sdk/v3/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
 )
 
 func tableHelloGet(ctx context.Context) *plugin.Table {
