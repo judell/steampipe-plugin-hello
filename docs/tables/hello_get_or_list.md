@@ -95,8 +95,9 @@ using
 +----+----------+-------------------+-----------------------------+
 ```
 
-### 5 uses getGreeting
+### 5 uses listGreeting
 
+```
 select 
   *
 from 
@@ -109,3 +110,4 @@ where id in ( select 1 as id union select 2 union select 17 )
 | 2  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
 | 1  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
 +----+----------+-------------------+-----------------------------+
+```
