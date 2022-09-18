@@ -35,9 +35,9 @@ select *, pg_typeof(json) from hello_list
 +----+----------+-------------------+-----------------------------+-----------+
 ```
 
-### 2
+###  by
 
-`listGreeting` runs to completion, returning 3 rows, and then the results are filtered down to 1 row.
+`listGreeting` runs to completion, returning 3 rows, and then the results are filtered by Postgres down to 1 row.
 
 ```
 select *, json->>'hello' as json_value from hello_list where id = 2
