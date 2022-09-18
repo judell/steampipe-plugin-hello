@@ -111,3 +111,21 @@ where id in ( select 1 as id union select 2 union select 17 )
 | 1  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
 +----+----------+-------------------+-----------------------------+
 ```
+
+### 6 uses listGreeting
+
+```
+create table hello_numbers as (
+  select 1 as id union select 2 union select 17
+)
+
+select 
+  *
+from 
+  hello_get_or_list
+join 
+  hello_numbers
+using
+  (id)
+
+
