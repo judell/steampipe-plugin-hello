@@ -57,7 +57,7 @@ select * from hello_get_or_list where id in (1,2,17)
 ```
 
 ```
-+----+----------+-------------------+-----------------------------+
++----+----------+-------------------+-----------------------------+a
 | id | greeting | json              | _ctx                        |
 +----+----------+-------------------+-----------------------------+
 | 1  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
@@ -72,7 +72,7 @@ Message from the plugin SDK:
 
 ### 4 uses listGreeting
 
-`listGreeting` runs to competion, returning ids 1, 2, and 3, then they're filtered down to 1, 2
+`listGreeting` runs to completion, returning ids 1, 2, and 3, then they're filtered down to 1, 2
 
 ```
 with ids as ( select 1 as id union select 2 union select 17 )
@@ -95,3 +95,17 @@ using
 +----+----------+-------------------+-----------------------------+
 ```
 
+### 5 uses getGreeting
+
+select 
+  *
+from 
+  hello_get_or_list
+where id in ( select 1 as id union select 2 union select 17 )
+
++----+----------+-------------------+-----------------------------+
+| id | greeting | json              | _ctx                        |
++----+----------+-------------------+-----------------------------+
+| 2  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
+| 1  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
++----+----------+-------------------+-----------------------------+
