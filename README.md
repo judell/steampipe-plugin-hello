@@ -28,15 +28,14 @@ $ make
 
 $ steampipe query
 
-> select * from hello order by id
-+----+----------+-------------------+
-| id | greeting | json              |
-+----+----------+-------------------+
-| 1  | Hello    | {"hello":"world"} |
-| 2  | Hello    | {"hello":"world"} |
-| 3  | Hello    | {"hello":"world"} |
-+----+----------+-------------------+
-
+> select * from hello_list order by id
++----+----------+-------------------+-----------------------------+
+| id | greeting | json              | _ctx                        |
++----+----------+-------------------+-----------------------------+
+| 2  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
+| 1  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
+| 3  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
++----+----------+-------------------+-----------------------------+
 ```
 
 
