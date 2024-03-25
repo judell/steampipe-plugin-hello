@@ -3,8 +3,8 @@ package hello
 import (
 	"context"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 type Hello struct {
@@ -22,8 +22,8 @@ func helloCols() []*plugin.Column {
 }
 
 func getGreeting(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-    quals := d.KeyColumnQuals
-    id := int(quals["id"].GetInt64Value())	
+	quals := d.EqualsQuals
+	id := int(quals["id"].GetInt64Value())	
 	plugin.Logger(ctx).Info("getGreeting", "number", id)
 	greeting := Hello{id, "Hello", "{\"hello\": \"world\"}"}
 	return &greeting, nil

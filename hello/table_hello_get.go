@@ -2,7 +2,8 @@ package hello
 
 import (
 	"context"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 func tableHelloGet(ctx context.Context) *plugin.Table {
@@ -10,10 +11,9 @@ func tableHelloGet(ctx context.Context) *plugin.Table {
 		Name:        "hello_get",
 		Description: "hello using Get/GetConfig",
 		Get: &plugin.GetConfig{
-			Hydrate: getGreeting,
+			Hydrate:    getGreeting,
 			KeyColumns: plugin.SingleColumn("id"),
 		},
 		Columns: helloCols(),
 	}
 }
-
