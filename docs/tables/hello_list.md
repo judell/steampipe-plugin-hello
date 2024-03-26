@@ -17,38 +17,79 @@ func tableHelloList(ctx context.Context) *plugin.Table {
 
 ## Examples
 
-These examples use `listGreeting`.
+These examples use `listGreeting`. 
 
 ### 1
 
 ```
-select *, pg_typeof(json) from hello_list
+select id, greeting, json, jsonb_pretty(_ctx) from hello_list
 ```
 
 ```
-+----+----------+-------------------+-----------------------------+-----------+
-| id | greeting | json              | _ctx                        | pg_typeof |
-+----+----------+-------------------+-----------------------------+-----------+
-| 1  | Hello    | {"hello":"world"} | {"connection_name":"hello"} | jsonb     |
-| 2  | Hello    | {"hello":"world"} | {"connection_name":"hello"} | jsonb     |
-| 3  | Hello    | {"hello":"world"} | {"connection_name":"hello"} | jsonb     |
-+----+----------+-------------------+-----------------------------+-----------+
++----+----------+-------------------+-----------------------------------------------------+
+| id | greeting | json              | jsonb_pretty                                        |
++----+----------+-------------------+-----------------------------------------------------+
+| 3  | Hello    | {"hello":"world"} | {                                                   |
+|    |          |                   |     "steampipe": {                                  |
+|    |          |                   |         "sdk_version": "5.8.0"                      |
+|    |          |                   |     },                                              |
+|    |          |                   |     "diagnostics": {                                |
+|    |          |                   |         "calls": [                                  |
+|    |          |                   |             {                                       |
+|    |          |                   |                 "type": "list",                     |
+|    |          |                   |                 "scope_values": {                   |
+|    |          |                   |                     "table": "hello_list",          |
+|    |          |                   |                     "connection": "hello",          |
+|    |          |                   |                     "function_name": "listGreeting" |
+|    |          |                   |                 },                                  |
+|    |          |                   |                 "function_name": "listGreeting",    |
+|    |          |                   |                 "rate_limiters": [                  |
+|    |          |                   |                 ],                                  |
+|    |          |                   |                 "rate_limiter_delay_ms": 0          |
+|    |          |                   |             }                                       |
+|    |          |                   |         ]                                           |
+|    |          |                   |     },                                              |
+|    |          |                   |     "connection_name": "hello"                      |
+|    |          |                   | }                                                   |
+| 2  | Hello    | {"hello":"world"} | {                                                   |
+... more data ...
 ```
 
-###  by
+### 2
 
 `listGreeting` runs to completion, returning 3 rows, and then the results are filtered by Postgres down to 1 row.
 
 ```
-select *, json->>'hello' as json_value from hello_list where id = 2
+select id, greeting, json->>'hello' as json_value, jsonb_pretty(_ctx) as _ctx from hello_list where id = 2
 ```
 
 ```
-+----+----------+-------------------+-----------------------------+------------+
-| id | greeting | json              | _ctx                        | json_value |
-+----+----------+-------------------+-----------------------------+------------+
-| 2  | Hello    | {"hello":"world"} | {"connection_name":"hello"} | world      |
-+----+----------+-------------------+-----------------------------+------------+
++----+----------+------------+-----------------------------------------------------+
+| id | greeting | json_value | _ctx                                                |
++----+----------+------------+-----------------------------------------------------+
+| 2  | Hello    | world      | {                                                   |
+|    |          |            |     "steampipe": {                                  |
+|    |          |            |         "sdk_version": "5.8.0"                      |
+|    |          |            |     },                                              |
+|    |          |            |     "diagnostics": {                                |
+|    |          |            |         "calls": [                                  |
+|    |          |            |             {                                       |
+|    |          |            |                 "type": "list",                     |
+|    |          |            |                 "scope_values": {                   |
+|    |          |            |                     "table": "hello_list",          |
+|    |          |            |                     "connection": "hello",          |
+|    |          |            |                     "function_name": "listGreeting" |
+|    |          |            |                 },                                  |
+|    |          |            |                 "function_name": "listGreeting",    |
+|    |          |            |                 "rate_limiters": [                  |
+|    |          |            |                 ],                                  |
+|    |          |            |                 "rate_limiter_delay_ms": 0          |
+|    |          |            |             }                                       |
+|    |          |            |         ]                                           |
+|    |          |            |     },                                              |
+|    |          |            |     "connection_name": "hello"                      |
+|    |          |            | }                                                   |
++----+----------+------------+-----------------------------------------------------+
 ```
 
 ### 3
@@ -56,14 +97,15 @@ select *, json->>'hello' as json_value from hello_list where id = 2
 `listGreeting` runs to completion, returning 3 rows, and then the results are filtered down to 0 rows.
 
 ```
-select * from hello_list where id = 17
+select id, greeting, json->>'hello' as json_value, jsonb_pretty(_ctx) as _ctx from hello_list where id = 17
+
 ```
 
 ```
-+----+----------+------+------+
-| id | greeting | json | _ctx |
-+----+----------+------+------+
-+----+----------+------+------+
++----+----------+------------+------+
+| id | greeting | json_value | _ctx |
++----+----------+------------+------+
++----+----------+------------+------+
 ```
 
 ### 4
@@ -71,39 +113,57 @@ select * from hello_list where id = 17
 `listGreeting` runs to completion, returning 3 rows, and then the results are filtered down to 2 rows.
 
 ```
-select * from hello_list where id in (1,2,17)
+select id, greeting, json->>'hello' as json_value, jsonb_pretty(_ctx) as _ctx from hello_list where id in (1,2,17)
 ```
 
 ```
-+----+----------+-------------------+-----------------------------+
-| id | greeting | json              | _ctx                        |
-+----+----------+-------------------+-----------------------------+
-| 1  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
-| 2  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
-+----+----------+-------------------+-----------------------------+
++----+----------+------------+-----------------------------------------------------+
+| id | greeting | json_value | _ctx                                                |
++----+----------+------------+-----------------------------------------------------+
+| 1  | Hello    | world      | {                                                   |
+|    |          |            |     "steampipe": {                                  |
+|    |          |            |         "sdk_version": "5.8.0"                      |
+|    |          |            |     },                                              |
+|    |          |            |     "diagnostics": {                                |
+|    |          |            |         "calls": [                                  |
+|    |          |            |             {                                       |
+|    |          |            |                 "type": "list",                     |
+|    |          |            |                 "scope_values": {                   |
+|    |          |            |                     "table": "hello_list",          |
+|    |          |            |                     "connection": "hello",          |
+|    |          |            |                     "function_name": "listGreeting" |
+|    |          |            |                 },                                  |
+|    |          |            |                 "function_name": "listGreeting",    |
+|    |          |            |                 "rate_limiters": [                  |
+|    |          |            |                 ],                                  |
+|    |          |            |                 "rate_limiter_delay_ms": 0          |
+|    |          |            |             }                                       |
+|    |          |            |         ]                                           |
+|    |          |            |     },                                              |
+|    |          |            |     "connection_name": "hello"                      |
+|    |          |            | }                                                   |
+| 2  | Hello    | world      | {                                                   |
+|    |          |            |     "steampipe": {                                  |
+|    |          |            |         "sdk_version": "5.8.0"                      |
+|    |          |            |     },                                              |
+|    |          |            |     "diagnostics": {                                |
+|    |          |            |         "calls": [                                  |
+|    |          |            |             {                                       |
+|    |          |            |                 "type": "list",                     |
+|    |          |            |                 "scope_values": {                   |
+|    |          |            |                     "table": "hello_list",          |
+|    |          |            |                     "connection": "hello",          |
+|    |          |            |                     "function_name": "listGreeting" |
+|    |          |            |                 },                                  |
+|    |          |            |                 "function_name": "listGreeting",    |
+|    |          |            |                 "rate_limiters": [                  |
+|    |          |            |                 ],                                  |
+|    |          |            |                 "rate_limiter_delay_ms": 0          |
+|    |          |            |             }                                       |
+|    |          |            |         ]                                           |
+|    |          |            |     },                                              |
+|    |          |            |     "connection_name": "hello"                      |
+|    |          |            | }                                                   |
++----+----------+------------+-----------------------------------------------------+
 ```
 
-### 5
-
-`listGreeting` runs to completion, returning 3 rows, and then the results are filtered down to 2 rows.
-
-```
-with ids as ( select 1 as id union select 2 union select 17 )
-select 
-  *
-from 
-  hello_list
-join 
-  ids
-using
-  (id)
-```
-
-```
-+----+----------+-------------------+-----------------------------+
-| id | greeting | json              | _ctx                        |
-+----+----------+-------------------+-----------------------------+
-| 2  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
-| 1  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
-+----+----------+-------------------+-----------------------------+
-```

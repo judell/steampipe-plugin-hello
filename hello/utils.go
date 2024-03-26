@@ -24,14 +24,14 @@ func helloCols() []*plugin.Column {
 func getGreeting(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	quals := d.EqualsQuals
 	id := int(quals["id"].GetInt64Value())	
-	plugin.Logger(ctx).Info("getGreeting", "number", id)
+	plugin.Logger(ctx).Info("hello: getGreeting", "number", id)
 	greeting := Hello{id, "Hello", "{\"hello\": \"world\"}"}
 	return &greeting, nil
 }
 
 func listGreeting(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	for i := 1; i <= 3; i++ {
-		plugin.Logger(ctx).Info("listGreeting", "number", i)		
+		plugin.Logger(ctx).Info("hello: listGreeting", "number", i)
 		greeting := Hello{i, "Hello", "{\"hello\": \"world\"}"}
 		d.StreamListItem(ctx, &greeting)
 	}
