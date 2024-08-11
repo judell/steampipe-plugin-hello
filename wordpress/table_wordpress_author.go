@@ -15,6 +15,9 @@ func tableWordPressAuthor(ctx context.Context) *plugin.Table {
 		Description: "Represents an author in WordPress.",
 		List: &plugin.ListConfig{
 			Hydrate: listAuthors,
+			KeyColumns: []*plugin.KeyColumn{
+				{Name: "id", Require: plugin.Optional},
+			},
 		},
 		Columns: []*plugin.Column{
 			{Name: "id", Type: proto.ColumnType_INT, Description: "The author ID."},
@@ -34,6 +37,12 @@ func listAuthors(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 
 	options := &wordpress.UserListOptions{}
+
+    // Check if the author key column is specified
+  if d.Quals["id"] != nil {
+			id := d.EqualsQuals["id"].GetInt64Value()
+			options.Include = []int{int(id)}
+	}
 
 	err = paginate(ctx, d, func(ctx context.Context, opts interface{}, perPage, offset int) (interface{}, *wordpress.Response, error) {
 		options := opts.(*wordpress.UserListOptions)
