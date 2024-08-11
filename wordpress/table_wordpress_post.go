@@ -33,35 +33,15 @@ func listPosts(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 		return nil, err
 	}
 
-	perPage := 10 // Adjust this value based on your needs and API limits
-	offset := 0
+	options := &wordpress.PostListOptions{}
 
-	for {
-		options := &wordpress.PostListOptions{
-			ListOptions: wordpress.ListOptions{
-				PerPage: perPage,
-				Offset:  offset,
-			},
-		}
+	err = paginate(ctx, d, func(ctx context.Context, opts interface{}, perPage, offset int) (interface{}, *wordpress.Response, error) {
+		options := opts.(*wordpress.PostListOptions)
+		options.ListOptions.PerPage = perPage
+		options.ListOptions.Offset = offset
+		return conn.Posts.List(ctx, options)
+	}, options)
 
-		posts, _, err := conn.Posts.List(ctx, options)
-		if err != nil {
-			plugin.Logger(ctx).Error("wordpress_post.listPosts", "query_error", err)
-			return nil, err
-		}
-
-		for _, post := range posts {
-			d.StreamListItem(ctx, post)
-		}
-
-		// Check if we've reached the end of the posts
-		if len(posts) < perPage {
-			break
-		}
-
-		// Update the offset for the next page
-		offset += perPage
-	}
-
-	return nil, nil
+	return nil, err
 }
+

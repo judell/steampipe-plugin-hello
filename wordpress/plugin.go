@@ -14,12 +14,11 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		ConnectionConfigSchema: &plugin.ConnectionConfigSchema{
 			NewInstance: ConfigInstance,
 			Schema:      ConfigSchema,
-		},		
+		},
 		TableMap: map[string]*plugin.Table{
-			"hello_wordpress":         tableHelloWordPress(ctx),
-			"wordpress_post":         tableWordPressPost(ctx),
+			"wordpress_post":   tableWordPressPost(ctx),
+			"wordpress_author": tableWordPressAuthor(ctx),
 		},
 	}
 	return p
 }
-
