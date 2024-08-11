@@ -6,6 +6,7 @@ import (
 	"github.com/sogko/go-wordpress"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
 func tableWordPressPost(ctx context.Context) *plugin.Table {
@@ -17,10 +18,11 @@ func tableWordPressPost(ctx context.Context) *plugin.Table {
 		},
 		Columns: []*plugin.Column{
 			{Name: "id", Type: proto.ColumnType_INT, Description: "The post ID."},
-			{Name: "title", Type: proto.ColumnType_JSON, Description: "The post title."},
+			{Name: "title", Type: proto.ColumnType_STRING, Transform: transform.FromValue().Transform(getTitle), Description: "The post title."},
 			{Name: "content", Type: proto.ColumnType_JSON, Description: "The post content."},
 			{Name: "author", Type: proto.ColumnType_INT, Description: "The post author ID."},
-		//	{Name: "date", Type: proto.ColumnType_TIMESTAMP, Description: "The post publication date."},
+			{Name: "date", Type: proto.ColumnType_TIMESTAMP, Transform: transform.FromValue().Transform(getDate), Description: "The post publication date."},
+		  {Name: "raw", Type: proto.ColumnType_JSON, Transform: transform.FromValue()},
 		},
 	}
 }
@@ -31,7 +33,7 @@ func listPosts(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 		return nil, err
 	}
 
-	perPage := 100 // Adjust this value based on your needs and API limits
+	perPage := 10 // Adjust this value based on your needs and API limits
 	offset := 0
 
 	for {
