@@ -14,7 +14,10 @@ func tableWordPressPost(ctx context.Context) *plugin.Table {
 		Name:        "wordpress_post",
 		Description: "Represents a post in WordPress.",
 		List: &plugin.ListConfig{
-			Hydrate: listPosts,
+			Hydrate:    listPosts,
+			KeyColumns: []*plugin.KeyColumn{
+				{Name: "author", Require: plugin.Optional},
+			},
 		},
 		Columns: []*plugin.Column{
 			{Name: "id", Type: proto.ColumnType_INT, Description: "The post ID."},
@@ -22,7 +25,7 @@ func tableWordPressPost(ctx context.Context) *plugin.Table {
 			{Name: "content", Type: proto.ColumnType_JSON, Description: "The post content."},
 			{Name: "author", Type: proto.ColumnType_INT, Description: "The post author ID."},
 			{Name: "date", Type: proto.ColumnType_TIMESTAMP, Transform: transform.FromValue().Transform(getDate), Description: "The post publication date."},
-		  {Name: "raw", Type: proto.ColumnType_JSON, Transform: transform.FromValue()},
+			{Name: "raw", Type: proto.ColumnType_JSON, Transform: transform.FromValue()},
 		},
 	}
 }
@@ -35,6 +38,11 @@ func listPosts(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 
 	options := &wordpress.PostListOptions{}
 
+		if d.Quals["author"] != nil {
+		id := d.EqualsQuals["author"].GetInt64Value()
+		options.Author = []int{int(id)}
+	}	
+
 	err = paginate(ctx, d, func(ctx context.Context, opts interface{}, perPage, offset int) (interface{}, *wordpress.Response, error) {
 		options := opts.(*wordpress.PostListOptions)
 		options.ListOptions.PerPage = perPage
@@ -44,4 +52,3 @@ func listPosts(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 
 	return nil, err
 }
-
