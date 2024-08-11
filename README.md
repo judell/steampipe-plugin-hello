@@ -11,3 +11,4 @@
   </a>
 </p>
 
+# steampipe-plugin-wordpress
