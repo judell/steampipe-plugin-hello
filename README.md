@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center">Hello Plugin for Steampipe</h1>
+  <h1 align="center">WordPress Plugin for Steampipe</h1>
 </p>
 
 <p align="center">
@@ -10,32 +10,4 @@
     <img alt="" src="https://img.shields.io/static/v1?label=license&message=Apache-2.0&style=for-the-badge&labelColor=777777&color=F3F1F0">
   </a>
 </p>
-
-## Examples for creators of Steampipe plugins
-
-Learn about [Steampipe](https://steampipe.io/)
-
-## Get started
-
-Install go, then:
-
-```
-$ git clone https://github.com/judell/steampipe-plugin-hello
-
-$ cp ./config/hello.spc ~/.steampipe/config
-
-$ make
-
-$ steampipe query
-
-> select * from hello_list order by id
-+----+----------+-------------------+-----------------------------+
-| id | greeting | json              | _ctx                        |
-+----+----------+-------------------+-----------------------------+
-| 2  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
-| 1  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
-| 3  | Hello    | {"hello":"world"} | {"connection_name":"hello"} |
-+----+----------+-------------------+-----------------------------+
-```
-
 
